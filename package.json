@@ -21,8 +21,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/appello-self/appello-kit.git",
-    "directory": "common"
+    "url": "git+https://gitlab.com/appello-self/frontend-common-kit.git"
   },
   "files": [
     "lib"
