@@ -1,0 +1,6 @@
+{
+  "extends": ["@appello/eslint-config"],
+  "rules": {
+    "import/no-extraneous-dependencies": "off"
+  }
+}
