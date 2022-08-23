@@ -24,12 +24,6 @@ export function makeFormData(
     }
   } else if (isPlainObject(object)) {
     Object.entries(object).forEach(([name, value]) => {
-      if (Array.isArray(value)) {
-        // todo: not sure `[]` is working
-        while (name.length > 2 && name.lastIndexOf('[]') === name.length - 2) {
-          name = name.substring(0, name.length - 2);
-        }
-      }
       if (prefix && /\[\d+\]$/.test(prefix)) {
         name = prefix ? `${prefix}${name}` : name;
       } else {
