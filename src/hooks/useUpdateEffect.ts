@@ -10,5 +10,6 @@ export function useUpdateEffect(effect: EffectCallback, deps: DependencyList): v
     if (!isFirstMount) {
       return effect();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 }
