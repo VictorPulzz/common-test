@@ -22,7 +22,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/appello-self/frontend-common-kit.git"
+    "url": "git+https://gitlab.com/appello-frontend-kit/common.git"
   },
   "files": [
     "lib"
