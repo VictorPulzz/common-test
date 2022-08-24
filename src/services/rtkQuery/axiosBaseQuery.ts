@@ -38,9 +38,7 @@ export interface AxiosBaseQueryError {
  */
 
 export const axiosBaseQuery =
-  ({
-    transformResponse,
-  }: AxiosBaseQueryParams): BaseQueryFn<
+  ({ transformResponse }: AxiosBaseQueryParams = {}): BaseQueryFn<
     {
       data?: AxiosRequestConfig['data'];
       extraOptions?: Record<string, any>;
