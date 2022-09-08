@@ -1,4 +1,11 @@
-import React from 'react';
+import { useCallback, useMemo, useState } from 'react';
+
+interface UseSwitchValueReturn {
+  value: boolean;
+  on(): void;
+  off(): void;
+  toggle(): void;
+}
 
 /**
  * Allows to control boolean value without additional callbacks
@@ -7,20 +14,20 @@ import React from 'react';
  * useSwitchValue(false) // [isModalOpen, openModal, closeModal]
  * ~~~
  */
-export function useSwitchValue(initial: boolean): [boolean, () => void, () => void, () => void] {
-  const [value, setValue] = React.useState(initial);
+export function useSwitchValue(initial: boolean): UseSwitchValueReturn {
+  const [value, setValue] = useState(initial);
 
-  const off = React.useCallback(() => {
-    setValue(false);
-  }, []);
-
-  const on = React.useCallback(() => {
+  const on = useCallback(() => {
     setValue(true);
   }, []);
 
-  const toggle = React.useCallback(() => {
-    setValue(state => !state);
+  const off = useCallback(() => {
+    setValue(false);
   }, []);
 
-  return React.useMemo(() => [value, on, off, toggle], [value, on, off, toggle]);
+  const toggle = useCallback(() => {
+    setValue(prevValue => !prevValue);
+  }, []);
+
+  return useMemo(() => ({ value, on, off, toggle, set: setValue }), [off, on, toggle, value]);
 }

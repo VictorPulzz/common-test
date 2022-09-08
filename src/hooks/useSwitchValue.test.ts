@@ -5,43 +5,43 @@ import { useSwitchValue } from './useSwitchValue';
 test('Testing initialState of useSwitchValue', () => {
   const { result } = renderHook(() => useSwitchValue(false));
 
-  expect(result.current[0]).toBe(false);
+  expect(result.current.value).toBe(false);
 });
 
 test('Testing on() function', () => {
   const { result } = renderHook(() => useSwitchValue(false));
 
   act(() => {
-    result.current[1]();
+    result.current.on();
   });
 
-  expect(result.current[0]).toBe(true);
+  expect(result.current.value).toBe(true);
 });
 
 test('Testing off() function', () => {
   const { result } = renderHook(() => useSwitchValue(false));
 
   act(() => {
-    result.current[1]();
+    result.current.on();
 
-    result.current[2]();
+    result.current.off();
   });
 
-  expect(result.current[0]).toBe(false);
+  expect(result.current.value).toBe(false);
 });
 
 test('Testing toggle() function', () => {
   const { result } = renderHook(() => useSwitchValue(false));
 
   act(() => {
-    result.current[3]();
+    result.current.toggle();
   });
 
-  expect(result.current[0]).toBe(true);
+  expect(result.current.value).toBe(true);
 
   act(() => {
-    result.current[3]();
+    result.current.toggle();
   });
 
-  expect(result.current[0]).toBe(false);
+  expect(result.current.value).toBe(false);
 });
