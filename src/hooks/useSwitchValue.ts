@@ -11,7 +11,7 @@ interface UseSwitchValueReturn {
  * Allows to control boolean value without additional callbacks
  *
  * ~~~
- * useSwitchValue(false) // [isModalOpen, openModal, closeModal]
+ * const { value: isModalOpen, on: openModal, off: closeModal, toggle: toggleModal } = useSwitchValue(false)
  * ~~~
  */
 export function useSwitchValue(initial: boolean): UseSwitchValueReturn {
