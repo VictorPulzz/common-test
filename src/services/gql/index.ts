@@ -13,7 +13,7 @@ export function createGqlClient(config: GqlConfig): ApolloClient<unknown> {
       createAuthLink(config),
       createUploadLink({ uri: config.serverUrl }),
     ]),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache(config.cache),
   });
 
   Object.assign(gqlConfig, config);
