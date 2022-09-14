@@ -30,7 +30,7 @@ function getEntries(formData: any): FormDataEntry[] {
   }
 
   if ('entries' in formData) {
-    return formData.entries();
+    return [...formData.entries()];
   }
 
   throw new Error('You are trying to map not a FormData object');
