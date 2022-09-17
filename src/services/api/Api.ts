@@ -49,7 +49,9 @@ export class Api {
       paramsSerializer(params) {
         return makeQueryString(snakecaseKeys(params, { deep: true }), { withPrefix: false });
       },
-      transformRequest(body = {}, headers = {}) {
+      transformRequest(body, headers = {}) {
+        // eslint-disable-next-line no-nested-ternary
+        body = body ? (typeof body === 'string' ? JSON.parse(body) : body) : {};
         if (headers['Content-Type'] === 'multipart/form-data') {
           const formData = body instanceof FormData ? body : makeFormData(body);
           return mapFormData(formData, ([key, value]) => [camelToSnakeCase(key), value]);
