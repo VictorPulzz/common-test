@@ -4,6 +4,7 @@ import snakecaseKeys from 'snakecase-keys';
 
 import { makeQueryString } from '~/utils';
 import { makeFormData, mapFormData } from '~/utils/formData';
+import { isPlainObject } from '~/utils/object';
 import { camelToSnakeCase } from '~/utils/string';
 
 import { ApiParams } from './types';
@@ -49,13 +50,17 @@ export class Api {
       paramsSerializer(params) {
         return makeQueryString(snakecaseKeys(params, { deep: true }), { withPrefix: false });
       },
-      transformRequest(body = {}, headers = {}) {
+      transformRequest(body: unknown = {}, headers = {}) {
         if (headers['Content-Type'] === 'multipart/form-data') {
           const formData = body instanceof FormData ? body : makeFormData(body);
           return mapFormData(formData, ([key, value]) => [camelToSnakeCase(key), value]);
         }
 
-        return JSON.stringify(snakecaseKeys(body, { deep: true }));
+        if (isPlainObject(body)) {
+          return JSON.stringify(snakecaseKeys(body, { deep: true }));
+        }
+
+        return body;
       },
       transformResponse(rawResponse) {
         if (!rawResponse) {
