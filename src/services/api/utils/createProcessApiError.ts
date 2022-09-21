@@ -1,3 +1,5 @@
+import { FieldPath } from 'react-hook-form';
+
 import { GLOBAL_ERROR_NAME } from '~/constants';
 import { ResponseErrors } from '~/types';
 import { entries } from '~/utils/object';
@@ -9,8 +11,8 @@ interface CreateProcessApiErrorOptions {
 
 export interface ProcessApiErrorOptions<TFormValues> {
   errors: ResponseErrors;
-  fields?: Record<string, keyof TFormValues> | (keyof TFormValues)[];
-  setFieldError?: (name: keyof TFormValues, value: string) => void;
+  fields?: Record<string, FieldPath<TFormValues>> | FieldPath<TFormValues>[];
+  setFieldError?: (name: FieldPath<TFormValues>, message: string) => void;
 }
 
 export function createProcessApiError({
@@ -31,9 +33,9 @@ export function createProcessApiError({
 
     entries(errors).forEach(([field, error]) => {
       // eslint-disable-next-line no-nested-ternary
-      const formField = Array.isArray(fields)
-        ? fields.includes(field as keyof TFormValues)
-          ? (field as keyof TFormValues)
+      const formField: FieldPath<TFormValues> | undefined = Array.isArray(fields)
+        ? fields.includes(field as FieldPath<TFormValues>)
+          ? (field as FieldPath<TFormValues>)
           : undefined
         : fields[field];
 
