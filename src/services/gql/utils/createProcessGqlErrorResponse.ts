@@ -1,4 +1,5 @@
 import { GraphQLError } from 'graphql';
+import { FieldPath } from 'react-hook-form';
 
 import { GQL_ERROR_CODE } from '~/services/gql/consts';
 import { entries } from '~/utils/object';
@@ -12,18 +13,21 @@ interface CreateProcessGqlErrorResponseOptions {
 }
 
 interface ProcessGqlErrorResponseOptions<TFormValues> {
-  fields?: (keyof TFormValues)[];
-  setFieldError?: (name: keyof TFormValues, value: string) => void;
+  fields?: FieldPath<TFormValues>[];
+  setFieldError?: (name: FieldPath<TFormValues>, message: string) => void;
 }
 
-export function createProcessGqlErrorResponse({
-  onNonFieldError,
-  onUnhandledFieldErrors,
-  onUnknownError,
-}: CreateProcessGqlErrorResponseOptions) {
+export function createProcessGqlErrorResponse(config: CreateProcessGqlErrorResponseOptions) {
   return function processGqlErrorResponse<TFormValues = Record<string, unknown>>(
     e: unknown,
-    { fields, setFieldError }: ProcessGqlErrorResponseOptions<TFormValues> = {},
+    {
+      fields,
+      setFieldError,
+      onNonFieldError = config.onNonFieldError,
+      onUnhandledFieldErrors = config.onUnhandledFieldErrors,
+      onUnknownError = config.onUnknownError,
+    }: ProcessGqlErrorResponseOptions<TFormValues> &
+      Partial<CreateProcessGqlErrorResponseOptions> = {},
   ): void {
     const graphQLErrors = (e as { graphQLErrors?: GraphQLError[] }).graphQLErrors;
 
@@ -48,7 +52,7 @@ export function createProcessGqlErrorResponse({
       return;
     }
 
-    const errors = explain as Record<Extract<keyof TFormValues, string>, string>;
+    const errors = explain as Record<FieldPath<TFormValues>, string>;
     const unhandledFieldErrors: { name: string; value: string }[] = [];
 
     entries(errors).forEach(([field, error]) => {
