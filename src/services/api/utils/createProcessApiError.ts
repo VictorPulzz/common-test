@@ -15,15 +15,14 @@ export interface ProcessApiErrorOptions<TFormValues> {
   setFieldError?: (name: FieldPath<TFormValues>, message: string) => void;
 }
 
-export function createProcessApiError({
-  onGlobalError,
-  onUnknownErrors,
-}: CreateProcessApiErrorOptions) {
+export function createProcessApiError(config: CreateProcessApiErrorOptions) {
   return function processApiError<TFormValues>({
     fields = {},
     setFieldError,
     errors,
-  }: ProcessApiErrorOptions<TFormValues>): void {
+    onGlobalError = config.onGlobalError,
+    onUnknownErrors = config.onUnknownErrors,
+  }: ProcessApiErrorOptions<TFormValues> & Partial<CreateProcessApiErrorOptions>): void {
     const unknownErrors: { name: string; value: string }[] = [];
 
     if (errors[GLOBAL_ERROR_NAME]) {
