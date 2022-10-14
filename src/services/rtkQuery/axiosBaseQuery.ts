@@ -40,27 +40,14 @@ export interface AxiosBaseQueryError {
 export const axiosBaseQuery =
   ({ transformResponse }: AxiosBaseQueryParams = {}): BaseQueryFn<
     {
-      data?: AxiosRequestConfig['data'];
       extraOptions?: Record<string, any>;
-      headers?: AxiosRequestConfig['headers'];
-      method?: AxiosRequestConfig['method'];
-      params?: AxiosRequestConfig['params'];
-      transformRequest?: AxiosRequestConfig['transformRequest'];
-      url: string;
-    },
+    } & AxiosRequestConfig,
     unknown,
     AxiosBaseQueryError
   > =>
-  async ({ url, method = 'GET', data, params, headers, transformRequest, extraOptions }) => {
+  async ({ extraOptions, method = 'GET', ...requestConfig }) => {
     try {
-      const result = await Api.request<any>({
-        url,
-        method,
-        data,
-        params,
-        headers,
-        transformRequest,
-      });
+      const result = await Api.request<any>({ method, ...requestConfig });
       const response = transformResponse ? transformResponse(result.data) : result.data ?? {};
       return {
         data: isPlainObject(response)
