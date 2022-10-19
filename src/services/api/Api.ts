@@ -39,7 +39,7 @@ export class Api {
 
   axiosInstance: AxiosInstance;
 
-  constructor(params: ApiParams) {
+  constructor({ shouldTransformKeys = false, ...params }: ApiParams) {
     this.axiosInstance = axios.create({
       timeout: 30000,
       baseURL: params.apiUrl,
@@ -48,16 +48,24 @@ export class Api {
         'Content-Type': 'application/json',
       },
       paramsSerializer(params) {
-        return makeQueryString(snakecaseKeys(params, { deep: true }), { withPrefix: false });
+        return makeQueryString(
+          shouldTransformKeys ? snakecaseKeys(params, { deep: true }) : params,
+          { withPrefix: false },
+        );
       },
       transformRequest(body: unknown = {}, headers = {}) {
         if (headers['Content-Type'] === 'multipart/form-data') {
           const formData = body instanceof FormData ? body : makeFormData(body);
-          return mapFormData(formData, ([key, value]) => [camelToSnakeCase(key), value]);
+
+          if (shouldTransformKeys) {
+            return mapFormData(formData, ([key, value]) => [camelToSnakeCase(key), value]);
+          }
+
+          return formData;
         }
 
         if (isPlainObject(body)) {
-          return JSON.stringify(snakecaseKeys(body, { deep: true }));
+          return JSON.stringify(shouldTransformKeys ? snakecaseKeys(body, { deep: true }) : body);
         }
 
         return body;
@@ -69,7 +77,11 @@ export class Api {
 
         const response = JSON.parse(rawResponse);
 
-        return camelcaseKeys(response, { deep: true });
+        if (shouldTransformKeys) {
+          return camelcaseKeys(response, { deep: true });
+        }
+
+        return response;
       },
     });
 
