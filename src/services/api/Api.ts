@@ -53,7 +53,7 @@ export class Api {
           { withPrefix: false },
         );
       },
-      transformRequest(body: unknown = {}, headers = {}) {
+      transformRequest(body: unknown, headers = {}) {
         if (headers['Content-Type'] === 'multipart/form-data') {
           const formData = body instanceof FormData ? body : makeFormData(body);
 
