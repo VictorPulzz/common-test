@@ -1,4 +1,4 @@
-import { UnknownFunction } from '~/types';
+import { AnyFunction } from '~/types';
 
 /**
  * Test argument for function
@@ -9,6 +9,6 @@ import { UnknownFunction } from '~/types';
  * ~~~
  */
 
-export function isFunction(arg: unknown): arg is UnknownFunction {
+export function isFunction<T extends AnyFunction>(arg: unknown): arg is T {
   return Object.prototype.toString.call(arg) === '[object Function]';
 }
