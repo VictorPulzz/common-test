@@ -1,5 +1,6 @@
 import { GraphQLError } from 'graphql';
 import { FieldPath } from 'react-hook-form';
+import { UseFormSetError } from 'react-hook-form/dist/types/form';
 
 import { GQL_ERROR_CODE } from '~/services/gql/consts';
 import { entries } from '~/utils/object';
@@ -15,6 +16,7 @@ interface CreateProcessGqlErrorResponseOptions {
 interface ProcessGqlErrorResponseOptions<TFormValues> {
   fields?: FieldPath<TFormValues>[];
   setFieldError?: (name: FieldPath<TFormValues>, message: string) => void;
+  setFormError?: UseFormSetError<TFormValues>;
 }
 
 export function createProcessGqlErrorResponse(config: CreateProcessGqlErrorResponseOptions) {
@@ -22,7 +24,8 @@ export function createProcessGqlErrorResponse(config: CreateProcessGqlErrorRespo
     e: unknown,
     {
       fields,
-      setFieldError,
+      setFormError,
+      setFieldError = setFormError ? (name, message) => setFormError(name, { message }) : undefined,
       onNonFieldError = config.onNonFieldError,
       onUnhandledFieldErrors = config.onUnhandledFieldErrors,
       onUnknownError = config.onUnknownError,
