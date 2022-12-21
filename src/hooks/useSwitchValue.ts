@@ -1,10 +1,11 @@
-import { useCallback, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useMemo, useState } from 'react';
 
 interface UseSwitchValueReturn {
   value: boolean;
   on(): void;
   off(): void;
   toggle(): void;
+  set: Dispatch<SetStateAction<boolean>>;
 }
 
 /**
