@@ -2,11 +2,14 @@ import { GraphQLError } from 'graphql/index';
 
 import { GQL_ERROR_CODE } from '~/services/gql/consts';
 
-import { createProcessGqlErrorResponse } from './createProcessGqlErrorResponse';
+import {
+  createProcessGqlErrorResponse,
+  UnhandledFieldError,
+} from './createProcessGqlErrorResponse';
 
 test('is working correctly', async () => {
   let nonFieldError: string | undefined;
-  let unhandledFieldErrors: string | undefined;
+  let unhandledFieldErrors: UnhandledFieldError[] | undefined;
   let unknownError: string | undefined;
   const handledErrors: string[] = [];
 
@@ -14,8 +17,8 @@ test('is working correctly', async () => {
     onNonFieldError: message => {
       nonFieldError = message;
     },
-    onUnhandledFieldErrors: message => {
-      unhandledFieldErrors = message;
+    onUnhandledFieldErrors: errors => {
+      unhandledFieldErrors = errors;
     },
     onUnknownError: message => {
       unknownError = message;

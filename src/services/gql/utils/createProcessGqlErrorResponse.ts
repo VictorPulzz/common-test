@@ -9,21 +9,26 @@ import { getGqlError } from './getGqlError';
 
 interface CreateProcessGqlErrorResponseOptions {
   onNonFieldError: (message: string) => void;
-  onUnhandledFieldErrors: (message: string) => void;
+  onUnhandledFieldErrors: (errors: UnhandledFieldError[]) => void;
   onUnknownError: (message: string) => void;
 }
 
 interface ProcessGqlErrorResponseOptions<TFormValues> {
-  fields?: FieldPath<TFormValues>[];
+  fields?: Record<string, FieldPath<TFormValues>> | FieldPath<TFormValues>[];
   setFieldError?: (name: FieldPath<TFormValues>, message: string) => void;
   setFormError?: UseFormSetError<TFormValues>;
+}
+
+export interface UnhandledFieldError {
+  name: string;
+  value: string;
 }
 
 export function createProcessGqlErrorResponse(config: CreateProcessGqlErrorResponseOptions) {
   return function processGqlErrorResponse<TFormValues = Record<string, unknown>>(
     e: unknown,
     {
-      fields,
+      fields = [],
       setFormError,
       setFieldError = setFormError ? (name, message) => setFormError(name, { message }) : undefined,
       onNonFieldError = config.onNonFieldError,
@@ -56,10 +61,17 @@ export function createProcessGqlErrorResponse(config: CreateProcessGqlErrorRespo
     }
 
     const errors = explain as Record<FieldPath<TFormValues>, string>;
-    const unhandledFieldErrors: { name: string; value: string }[] = [];
+    const unhandledFieldErrors: UnhandledFieldError[] = [];
 
     entries(errors).forEach(([field, error]) => {
-      if (fields && fields.includes(field) && setFieldError) {
+      // eslint-disable-next-line no-nested-ternary
+      const formField: FieldPath<TFormValues> | undefined = Array.isArray(fields)
+        ? fields.includes(field as FieldPath<TFormValues>)
+          ? (field as FieldPath<TFormValues>)
+          : undefined
+        : fields[field];
+
+      if (fields && formField && setFieldError) {
         setFieldError(field, error);
       } else {
         unhandledFieldErrors.push({ name: field, value: error });
@@ -67,7 +79,7 @@ export function createProcessGqlErrorResponse(config: CreateProcessGqlErrorRespo
     });
 
     if (unhandledFieldErrors.length > 0) {
-      onUnhandledFieldErrors(JSON.stringify(unhandledFieldErrors));
+      onUnhandledFieldErrors(unhandledFieldErrors);
     }
   };
 }
