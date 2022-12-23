@@ -3,7 +3,7 @@ import { FieldPath } from 'react-hook-form';
 import { UseFormSetError } from 'react-hook-form/dist/types/form';
 
 import { GQL_ERROR_CODE } from '~/services/gql/consts';
-import { entries } from '~/utils/object';
+import { entries, isPlainObject } from '~/utils/object';
 
 import { getGqlError } from './getGqlError';
 
@@ -64,15 +64,25 @@ export function createProcessGqlErrorResponse(config: CreateProcessGqlErrorRespo
     const unhandledFieldErrors: UnhandledFieldError[] = [];
 
     entries(errors).forEach(([field, error]) => {
-      // eslint-disable-next-line no-nested-ternary
-      const formField: FieldPath<TFormValues> | undefined = Array.isArray(fields)
-        ? fields.includes(field as FieldPath<TFormValues>)
-          ? (field as FieldPath<TFormValues>)
-          : undefined
-        : fields[field];
+      let formField: FieldPath<TFormValues> | undefined;
+
+      if (Array.isArray(fields)) {
+        if (fields.some(v => v.startsWith(field))) {
+          // startsWith is used to handle nested fields
+          formField = field;
+        }
+      } else {
+        formField = fields[field];
+      }
 
       if (fields && formField && setFieldError) {
-        setFieldError(field, error);
+        if (isPlainObject(error)) {
+          entries(error as Record<string, string>).forEach(([nestedField, nestedError]) => {
+            setFieldError(`${formField}.${nestedField}` as FieldPath<TFormValues>, nestedError);
+          });
+        } else {
+          setFieldError(field, error);
+        }
       } else {
         unhandledFieldErrors.push({ name: field, value: error });
       }

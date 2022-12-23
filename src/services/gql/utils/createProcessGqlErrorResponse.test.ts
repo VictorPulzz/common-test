@@ -11,7 +11,7 @@ test('is working correctly', async () => {
   let nonFieldError: string | undefined;
   let unhandledFieldErrors: UnhandledFieldError[] | undefined;
   let unknownError: string | undefined;
-  const handledErrors: string[] = [];
+  const handledErrors: Record<string, string> = {};
 
   const processGqlErrorResponse = createProcessGqlErrorResponse({
     onNonFieldError: message => {
@@ -28,9 +28,13 @@ test('is working correctly', async () => {
   interface FormValues {
     name: string;
     password: string;
+    user: {
+      email: string;
+    };
   }
 
   const nameErrorMessage = 'Name is required';
+  const emailErrorMessage = 'Email is required';
   const gqlError = {
     graphQLErrors: [
       new GraphQLError('Failed', {
@@ -38,6 +42,9 @@ test('is working correctly', async () => {
           code: GQL_ERROR_CODE.UNPROCESSABLE_ENTITY,
           explain: {
             name: nameErrorMessage,
+            user: {
+              email: emailErrorMessage,
+            },
           },
         },
       }),
@@ -45,12 +52,16 @@ test('is working correctly', async () => {
   };
 
   processGqlErrorResponse<FormValues>(gqlError, {
-    fields: ['name'],
-    setFieldError: (name, message) => handledErrors.push(message),
+    fields: ['name', 'user.email'],
+    setFieldError: (name, message) => {
+      handledErrors[name] = message;
+    },
   });
 
-  expect(handledErrors).toHaveLength(1);
-  expect(handledErrors[0]).toBe(nameErrorMessage);
+  expect(handledErrors).toMatchObject({
+    name: nameErrorMessage,
+    'user.email': emailErrorMessage,
+  });
 
   // todo: do test with react-hook-form's `setError` function
   // expect(form.formState.errors.name).toBe(nameErrorMessage);
