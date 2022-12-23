@@ -1,6 +1,6 @@
 {
   "name": "@appello/common",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "Common usage",
   "scripts": {
     "build": "rm -rf lib && mkdir lib && tsc && tscpaths -p tsconfig.json -s ./src -o ./lib",
