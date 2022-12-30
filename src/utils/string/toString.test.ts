@@ -6,4 +6,5 @@ test('is working correctly', () => {
   expect(toString(null)).toBe('');
   expect(toString(undefined)).toBe('');
   expect(toString(false)).toBe('');
+  expect(toString(NaN)).toBe('');
 });
