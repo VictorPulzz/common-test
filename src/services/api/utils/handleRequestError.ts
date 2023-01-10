@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GLOBAL_ERROR_NAME } from '~/constants';
+import { GLOBAL_ERROR_NAME } from '~/services/api/constants';
 import { ResponseErrors } from '~/types';
 import { entries, isPlainObject, keys } from '~/utils/object';
 

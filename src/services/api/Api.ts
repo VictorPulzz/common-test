@@ -7,6 +7,7 @@ import { makeFormData, mapFormData } from '~/utils/formData';
 import { isPlainObject } from '~/utils/object';
 import { camelToSnakeCase } from '~/utils/string';
 
+import { CONTENT_TYPE_HEADER, ContentType } from './constants';
 import { ApiParams } from './types';
 import { hasUnauthorizedError, retryWithNewTokens, setAuthorizationHeader } from './utils';
 
@@ -44,8 +45,8 @@ export class Api {
       timeout: 30000,
       baseURL: params.apiUrl,
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Accept: ContentType.JSON,
+        [CONTENT_TYPE_HEADER]: ContentType.JSON,
       },
       paramsSerializer(params) {
         return makeQueryString(
@@ -54,7 +55,7 @@ export class Api {
         );
       },
       transformRequest(body: unknown, headers = {}) {
-        if (headers['Content-Type'] === 'multipart/form-data') {
+        if (headers[CONTENT_TYPE_HEADER] === ContentType.FORM_DATA) {
           const formData = body instanceof FormData ? body : makeFormData(body);
 
           if (shouldTransformKeys) {

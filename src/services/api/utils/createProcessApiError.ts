@@ -1,7 +1,7 @@
 import { FieldPath } from 'react-hook-form';
 import { UseFormSetError } from 'react-hook-form/dist/types/form';
 
-import { GLOBAL_ERROR_NAME } from '~/constants';
+import { GLOBAL_ERROR_NAME } from '~/services/api/constants';
 import { ResponseErrors } from '~/types';
 import { entries } from '~/utils/object';
 
