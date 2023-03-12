@@ -8,6 +8,6 @@ const prepareValue = (value: string): string => value.toLowerCase().replace(' ',
  * matchSearchValue('johndoe', 'John') // false
  * ~~~
  */
-export function matchSearchValue(searchValue: string, value: string): boolean {
-  return prepareValue(value).includes(prepareValue(searchValue));
+export function matchSearchValue(search: string, value: string, ...values: string[]): boolean {
+  return prepareValue(`${value} ${values.join(' ')}`).includes(prepareValue(search));
 }
