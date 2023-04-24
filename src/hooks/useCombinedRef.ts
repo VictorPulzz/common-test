@@ -2,9 +2,7 @@ import React from 'react';
 
 import { isFunction } from '~/utils';
 
-export function useCombinedRef<T>(
-  ...refs: (React.Ref<T> | React.MutableRefObject<T>)[]
-): React.RefCallback<T> {
+export function useCombinedRef<T>(...refs: React.Ref<T>[]): React.RefCallback<T> {
   return React.useCallback(
     (element: T) => {
       refs.forEach(ref => {
