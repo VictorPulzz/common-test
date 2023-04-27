@@ -81,7 +81,7 @@ export function createProcessGqlErrorResponse(config: CreateProcessGqlErrorRespo
             setFieldError(`${formField}.${nestedField}` as FieldPath<TFormValues>, nestedError);
           });
         } else {
-          setFieldError(field, error);
+          setFieldError(formField, error);
         }
       } else {
         unhandledFieldErrors.push({ name: field, value: error });
