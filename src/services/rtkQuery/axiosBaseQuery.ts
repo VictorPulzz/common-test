@@ -1,18 +1,18 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/query';
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-import { Api } from '~/services/api/Api';
-import { handleRequestError } from '~/services/api/utils';
-import { ResponseErrors } from '~/types';
+import { Api, handleRequestError } from '~/services/api';
+import { AnyObject, ResponseErrors } from '~/types';
 import { isPlainObject } from '~/utils/object';
 
 export interface AxiosBaseQueryParams {
   transformResponse?: (data: AxiosResponse['data']) => Record<string, any>;
+  handleError?: (e: unknown) => any;
 }
 
 export interface AxiosBaseQueryError {
   status?: number;
-  data: ResponseErrors;
+  data: ResponseErrors | AxiosError['response'];
   extraOptions?: Record<string, any>;
 }
 
@@ -38,9 +38,9 @@ export interface AxiosBaseQueryError {
  */
 
 export const axiosBaseQuery =
-  ({ transformResponse }: AxiosBaseQueryParams = {}): BaseQueryFn<
+  ({ transformResponse, handleError = handleRequestError }: AxiosBaseQueryParams = {}): BaseQueryFn<
     {
-      extraOptions?: Record<string, any>;
+      extraOptions?: AnyObject;
     } & AxiosRequestConfig,
     unknown,
     AxiosBaseQueryError
@@ -55,10 +55,11 @@ export const axiosBaseQuery =
           : response,
       };
     } catch (e) {
+      const error = <AxiosError>e;
       return {
         error: {
-          status: (e as AxiosError).response?.status,
-          data: handleRequestError(e),
+          status: error.response?.status,
+          data: handleError(error),
           extraOptions,
         },
       };

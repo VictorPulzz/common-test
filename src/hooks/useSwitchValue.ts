@@ -30,5 +30,5 @@ export function useSwitchValue(initial: boolean): UseSwitchValueReturn {
     setValue(prevValue => !prevValue);
   }, []);
 
-  return useMemo(() => ({ value, on, off, toggle, set: setValue }), [off, on, toggle, value]);
+  return useMemo(() => ({ value, on, off, toggle, set: setValue }), [value, on, off, toggle]);
 }

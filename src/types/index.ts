@@ -5,8 +5,9 @@ export type ResponseErrors = Record<string, string>;
 
 export type UnknownFunction = (...args: unknown[]) => unknown;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyFunction = (...args: any) => any;
+
+export type AnyObject = Record<string, any>;
 
 export interface UserAuth {
   refresh: string;
