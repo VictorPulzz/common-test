@@ -40,9 +40,9 @@ export class Api {
 
   axiosInstance: AxiosInstance;
 
-  constructor({ shouldTransformKeys = false, ...params }: ApiParams) {
+  constructor({ shouldTransformKeys = false, timeout = 30000, ...params }: ApiParams) {
     this.axiosInstance = axios.create({
-      timeout: 30000,
+      timeout,
       baseURL: params.apiUrl,
       headers: {
         Accept: ContentType.JSON,

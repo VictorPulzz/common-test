@@ -8,4 +8,5 @@ export interface ApiParams {
   getRefreshToken: () => string | undefined | null;
   onTokenRefreshSuccess?: (responseData: UserAuth) => void;
   onTokenRefreshError?: (error?: unknown) => void;
+  timeout?: number;
 }
