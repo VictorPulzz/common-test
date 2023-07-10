@@ -30,11 +30,15 @@ function runQueue({ error, token }: { error?: AxiosError; token?: string }): voi
 }
 
 export function hasUnauthorizedError(error: unknown, apiParams: ApiParams): error is AxiosError {
+  if (!axios.isAxiosError(error)) {
+    return false;
+  }
+
+  const isRefreshTokenEndpoint =
+    error.config.url === apiParams.refreshTokenUrl && error.config.method === 'POST';
+
   return (
-    axios.isAxiosError(error) &&
-    error.response?.status === 401 &&
-    !isAxiosRequestRetry(error.config) &&
-    error.config.url !== apiParams.refreshTokenUrl
+    error.response?.status === 401 && !isAxiosRequestRetry(error.config) && !isRefreshTokenEndpoint
   );
 }
 
