@@ -37,6 +37,11 @@ export function createErrorLink(config: GqlConfig): ApolloLink {
               }));
               return true;
             })
+            .catch(e => {
+              pendingRequests = [];
+              config.onTokenRefreshError(e);
+              return false;
+            })
             .then(() => {
               resolvePendingRequests();
               return true;
