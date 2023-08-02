@@ -7,16 +7,16 @@ import { createErrorLink } from './links/createErrorLink';
 import { GqlConfig } from './types';
 
 export function createGqlClient(config: GqlConfig): ApolloClient<unknown> {
+  Object.assign(gqlConfig, config);
+
   gqlConfig.client = new ApolloClient({
     link: from([
-      createErrorLink(config),
-      createAuthLink(config),
-      createUploadLink({ uri: config.serverUrl }),
+      createErrorLink(gqlConfig),
+      createAuthLink(gqlConfig),
+      createUploadLink({ uri: gqlConfig.serverUrl }),
     ]),
-    cache: new InMemoryCache(config.cache),
+    cache: new InMemoryCache(gqlConfig.cache),
   });
-
-  Object.assign(gqlConfig, config);
 
   return gqlConfig.client;
 }
