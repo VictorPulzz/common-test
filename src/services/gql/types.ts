@@ -24,5 +24,6 @@ export interface GqlConfig {
     client: ApolloClient<unknown>,
     context: GqlClientContext,
   ) => Promise<Nullable<UserAuth>>;
+  refreshTokenOperationName?: string;
   cache?: InMemoryCacheConfig;
 }

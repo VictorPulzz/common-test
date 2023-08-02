@@ -20,7 +20,10 @@ const resolvePendingRequests = (): void => {
 
 export function createErrorLink(config: GqlConfig): ApolloLink {
   return onError(({ graphQLErrors, operation, forward }) => {
-    if (hasGqlUnauthorizedError(graphQLErrors)) {
+    if (
+      hasGqlUnauthorizedError(graphQLErrors) &&
+      operation.operationName !== config.refreshTokenOperationName
+    ) {
       let forwards;
       if (!isRefreshing) {
         isRefreshing = true;
@@ -36,11 +39,6 @@ export function createErrorLink(config: GqlConfig): ApolloLink {
                 },
               }));
               return true;
-            })
-            .catch(e => {
-              pendingRequests = [];
-              config.onTokenRefreshError(e);
-              return false;
             })
             .then(() => {
               resolvePendingRequests();

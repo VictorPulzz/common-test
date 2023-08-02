@@ -9,6 +9,7 @@ export const gqlConfig: GqlConfig & { client: Nullable<ApolloClient<unknown>> } 
   getRefreshToken: () => '',
   getAccessToken: () => '',
   refreshTokens: async () => null,
+  refreshTokenOperationName: 'RefreshTokens',
   onTokenRefreshSuccess: () => undefined,
   onTokenRefreshError: () => undefined,
 };
