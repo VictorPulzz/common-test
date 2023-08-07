@@ -1,12 +1,7 @@
-import axios, {
-  AxiosError,
-  AxiosInstance,
-  AxiosPromise,
-  AxiosRequestConfig,
-  AxiosResponse,
-} from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 
 import { UserAuth } from '~/types';
+import { isNil } from '~/utils';
 
 import { ApiParams } from '../types';
 import { setAuthorizationHeader } from './setAuthorizationHeader';
@@ -61,9 +56,14 @@ export function retryWithNewTokens(
   isRefreshing = true;
 
   return new Promise((resolve, reject) => {
-    instance
-      .post(apiParams.refreshTokenUrl, { refresh: apiParams.getRefreshToken() })
-      .then(({ data }: AxiosResponse<UserAuth>) => {
+    const refreshPromise = isNil(apiParams.refreshTokens)
+      ? instance
+          .post<UserAuth>(apiParams.refreshTokenUrl ?? '', { refresh: apiParams.getRefreshToken() })
+          .then(({ data }) => data)
+      : apiParams.refreshTokens({ instance, config });
+
+    refreshPromise
+      .then((data: UserAuth) => {
         apiParams.onTokenRefreshSuccess?.(data);
 
         // todo: does it really need? test without it
