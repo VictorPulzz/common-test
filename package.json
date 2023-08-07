@@ -12,7 +12,7 @@
     "prepublishOnly": "npm run test && npm run lint",
     "preversion": "npm run test && npm run lint",
     "version": "npm run prettier && git add -A src",
-    "postversion": "git push && git push --tags",
+    "postpublish": "git push && git push --tags",
     "generateDocs": "typedoc --plugin typedoc-plugin-markdown --out docs src/index.ts",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch"
