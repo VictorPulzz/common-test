@@ -1,5 +1,6 @@
-import axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
+import axios, { AxiosDefaults, AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 import camelcaseKeys from 'camelcase-keys';
+import cloneDeep from 'lodash.clonedeep';
 import snakecaseKeys from 'snakecase-keys';
 
 import { makeQueryString } from '~/utils';
@@ -128,6 +129,18 @@ export class Api {
 
   static getAxios(): AxiosInstance {
     return Api.getInstance().axiosInstance;
+  }
+
+  static setBaseUrl(url: string): void {
+    Api.getAxios().defaults.baseURL = url;
+  }
+
+  static setAxiosConfig(config: AxiosDefaults): void {
+    const cloneBeforeConfig = cloneDeep(Api.getAxios().defaults);
+    Api.getAxios().defaults = {
+      ...cloneBeforeConfig,
+      ...config,
+    };
   }
 
   static get<T = any>(
