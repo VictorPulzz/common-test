@@ -68,10 +68,12 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
     "@types/lodash.clonedeep": "^4.5.7",
+    "@types/lodash.merge": "^4.6.7",
     "axios": "~0.27.2",
     "camelcase-keys": "^8.0.1",
     "date-fns": "~2.29.1",
     "lodash.clonedeep": "^4.5.0",
+    "lodash.merge": "^4.6.2",
     "snake-case": "^3.0.4",
     "snakecase-keys": "^5.4.2"
   }
