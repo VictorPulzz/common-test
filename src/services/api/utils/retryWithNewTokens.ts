@@ -25,6 +25,7 @@ function runQueue({ error, token }: { error?: AxiosError; token?: string }): voi
 }
 
 export function hasUnauthorizedError(error: unknown, apiParams: ApiParams): error is AxiosError {
+  const codes = apiParams.errorCodesTokenExpired || [401];
   if (!axios.isAxiosError(error)) {
     return false;
   }
@@ -33,7 +34,9 @@ export function hasUnauthorizedError(error: unknown, apiParams: ApiParams): erro
     error.config.url === apiParams.refreshTokenUrl && error.config.method === 'POST';
 
   return (
-    error.response?.status === 401 && !isAxiosRequestRetry(error.config) && !isRefreshTokenEndpoint
+    codes.includes(<number>error.response?.status) &&
+    !isAxiosRequestRetry(error.config) &&
+    !isRefreshTokenEndpoint
   );
 }
 
@@ -45,9 +48,10 @@ export function isAxiosRequestRetry(
 
 export function retryWithNewTokens(
   instance: AxiosInstance,
-  config: AxiosRequestConfig & { [retryKey]?: boolean },
+  error: AxiosError,
   apiParams: ApiParams,
 ): AxiosPromise {
+  const config = <AxiosRequestConfig & { [retryKey]?: boolean }>error.config;
   if (isRefreshing) {
     return addToQueue(instance, config);
   }
@@ -60,7 +64,7 @@ export function retryWithNewTokens(
       ? instance
           .post<UserAuth>(apiParams.refreshTokenUrl ?? '', { refresh: apiParams.getRefreshToken() })
           .then(({ data }) => data)
-      : apiParams.refreshTokens({ instance, config });
+      : apiParams.refreshTokens({ instance, error });
 
     refreshPromise
       .then((data: UserAuth) => {

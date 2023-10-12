@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { AxiosError, AxiosInstance } from 'axios';
 
 import { UserAuth } from '~/types';
 
@@ -12,10 +12,10 @@ export interface ApiParams {
 
   refreshTokens?: ({
     instance,
-    config,
+    error,
   }: {
     instance: AxiosInstance;
-    config: AxiosRequestConfig;
+    error: AxiosError;
   }) => Promise<UserAuth>;
 
   /**
@@ -27,4 +27,5 @@ export interface ApiParams {
   onTokenRefreshSuccess?: (responseData: UserAuth) => void;
   onTokenRefreshError?: (error?: unknown) => void;
   timeout?: number;
+  errorCodesTokenExpired?: number[];
 }

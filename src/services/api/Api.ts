@@ -104,7 +104,7 @@ export class Api {
       response => response,
       error => {
         if (hasUnauthorizedError(error, params)) {
-          return retryWithNewTokens(this.axiosInstance, error.config, params);
+          return retryWithNewTokens(this.axiosInstance, error, params);
         }
 
         return Promise.reject(error);
