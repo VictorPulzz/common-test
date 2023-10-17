@@ -1,4 +1,4 @@
-import axios, { AxiosDefaults, AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 import camelcaseKeys from 'camelcase-keys';
 import merge from 'lodash.merge';
 import snakecaseKeys from 'snakecase-keys';
@@ -48,6 +48,7 @@ export class Api {
       headers: {
         Accept: ContentType.JSON,
         [CONTENT_TYPE_HEADER]: ContentType.JSON,
+        ...(params?.customHeaders?.() || {}),
       },
       paramsSerializer(params) {
         return makeQueryString(
@@ -103,6 +104,10 @@ export class Api {
     this.axiosInstance.interceptors.response.use(
       response => response,
       error => {
+        if (error?.config?.params?.noCheckUnauthorizedError) {
+          return Promise.reject(error);
+        }
+
         if (hasUnauthorizedError(error, params)) {
           return retryWithNewTokens(this.axiosInstance, error, params);
         }
@@ -135,7 +140,7 @@ export class Api {
     Api.getAxios().defaults.baseURL = url;
   }
 
-  static setAxiosConfig(config: AxiosDefaults): void {
+  static setAxiosConfig(config: AxiosRequestConfig): void {
     Api.getAxios().defaults = merge(Api.getAxios().defaults, config);
   }
 

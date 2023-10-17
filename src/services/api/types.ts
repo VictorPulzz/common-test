@@ -1,4 +1,4 @@
-import { AxiosError, AxiosInstance } from 'axios';
+import { AxiosError, AxiosInstance, AxiosRequestHeaders } from 'axios';
 
 import { UserAuth } from '~/types';
 
@@ -28,4 +28,5 @@ export interface ApiParams {
   onTokenRefreshError?: (error?: unknown) => void;
   timeout?: number;
   errorCodesTokenExpired?: number[];
+  customHeaders?: () => AxiosRequestHeaders;
 }
