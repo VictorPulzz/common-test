@@ -14,9 +14,9 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rm -rf dist && rollup -c",
-    "prettier": "prettier --write ./src/**/*.{ts,tsx}",
-    "lint": "eslint --quiet ./src/**/*.{ts,tsx}",
-    "lint:fix": "eslint ./src/**/*.{ts,tsx} --fix",
+    "prettier": "prettier --write src/**/*",
+    "lint": "eslint --quiet src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "check-types": "tsc -p tsconfig.json",
     "prepare-release": "npx lint-staged && npm run build",
     "alpha-version": "npm version prerelease --preid=alpha",
@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "@apollo/client": "^3.6.9",
-    "@appello/eslint-config": "^0.1.15",
+    "@appello/eslint-config": "^0.1.16",
     "@babel/preset-env": "^7.23.3",
     "@babel/preset-react": "^7.23.3",
     "@rollup/plugin-babel": "^6.0.4",
