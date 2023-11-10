@@ -1,2 +1,2 @@
-export { makeFormData } from './makeFormData';
-export { mapFormData } from './mapFormData';
+export * from './makeFormData';
+export * from './mapFormData';
