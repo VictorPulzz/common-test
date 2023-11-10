@@ -1,6 +1,6 @@
 import { AxiosError, AxiosInstance, AxiosRequestHeaders } from 'axios';
 
-import { UserAuth } from '~/types';
+import { UserAuth } from '~/services';
 
 export interface ApiParams {
   apiUrl: string;

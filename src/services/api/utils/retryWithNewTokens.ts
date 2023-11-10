@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 
-import { UserAuth } from '~/types';
+import { UserAuth } from '~/services';
 import { isNil } from '~/utils';
 
 import { ApiParams } from '../types';

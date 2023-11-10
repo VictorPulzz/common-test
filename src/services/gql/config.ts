@@ -1,6 +1,7 @@
 import { ApolloClient } from '@apollo/client';
 
 import { GqlConfig } from '~/services/gql/types';
+import { Nullable } from '~/types';
 
 export const gqlConfig: GqlConfig & { client: Nullable<ApolloClient<unknown>> } = {
   client: null,

@@ -2,9 +2,8 @@
   "compilerOptions": {
     "target": "es2017",
     "jsx": "react",
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
-    "experimentalDecorators": true,
     "pretty": true,
     "removeComments": true,
     "noImplicitReturns": true,
@@ -13,17 +12,16 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "strict": true,
+    "noEmit": true,
     "resolveJsonModule": true,
     "lib": ["esnext", "dom"],
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
     },
-
     "declaration": true,
-    "outDir": "./lib",
-    "rootDir": "./src",
-    "declarationDir": "./lib"
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
 }
