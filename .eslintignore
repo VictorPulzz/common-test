@@ -3,4 +3,4 @@ node_modules
 /lib
 jest.config.js
 lint-staged.config.js
-rollup.config.js
+rollup.config.mjs
