@@ -1,6 +1,6 @@
 import { AxiosError, AxiosInstance, AxiosRequestHeaders } from 'axios';
 
-import { UserAuth } from '~/services';
+import { UserAuth } from '../gql';
 
 export interface ApiParams {
   apiUrl: string;

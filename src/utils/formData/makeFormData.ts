@@ -1,4 +1,4 @@
-import { isPlainObject } from '~/utils/object';
+import { isPlainObject } from '../object';
 
 /**
  * Function that makes `FormData` from object

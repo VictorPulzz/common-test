@@ -1,16 +1,16 @@
-import { FieldPath } from 'react-hook-form';
+import { FieldPath, FieldValues } from 'react-hook-form';
 import { UseFormSetError } from 'react-hook-form/dist/types/form';
 
-import { GLOBAL_ERROR_NAME } from '~/services/api/constants';
-import { ResponseErrors } from '~/types';
-import { entries } from '~/utils/object';
+import { ResponseErrors } from '../../../types';
+import { entries } from '../../../utils';
+import { GLOBAL_ERROR_NAME } from '../constants';
 
 interface CreateProcessApiErrorOptions {
   onGlobalError: (message: string) => void;
   onUnknownErrors: (message: string) => void;
 }
 
-export interface ProcessApiErrorOptions<TFormValues> {
+export interface ProcessApiErrorOptions<TFormValues extends FieldValues> {
   errors: ResponseErrors;
   fields?: Record<string, FieldPath<TFormValues>> | FieldPath<TFormValues>[];
   setFieldError?: (name: FieldPath<TFormValues>, message: string) => void;
@@ -18,7 +18,7 @@ export interface ProcessApiErrorOptions<TFormValues> {
 }
 
 export function createProcessApiError(config: CreateProcessApiErrorOptions) {
-  return function processApiError<TFormValues>({
+  return function processApiError<TFormValues extends FieldValues>({
     fields = {},
     setFormError,
     setFieldError = setFormError ? (name, message) => setFormError(name, { message }) : undefined,

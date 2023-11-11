@@ -1,8 +1,8 @@
 import { ApolloLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-import { GqlClientContext, GqlConfig } from '~/services/gql/types';
-import { getAuthorizationHeader } from '~/services/gql/utils';
+import { GqlClientContext, GqlConfig } from '../types';
+import { getAuthorizationHeader } from '../utils';
 
 export function createAuthLink(config: GqlConfig): ApolloLink {
   return setContext(async (_, prevContext: GqlClientContext) => {

@@ -1,5 +1,5 @@
-import { gqlConfig } from '~/services/gql/config';
-import { GqlClientContext, UserAuth } from '~/services/gql/types';
+import { gqlConfig } from '../config';
+import { GqlClientContext, UserAuth } from '../types';
 
 export const refreshTokens = async (): Promise<UserAuth> => {
   const refreshToken = gqlConfig.getRefreshToken();

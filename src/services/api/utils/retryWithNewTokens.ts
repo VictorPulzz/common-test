@@ -1,8 +1,7 @@
 import axios, { AxiosError, AxiosInstance, AxiosPromise, AxiosRequestConfig } from 'axios';
 
-import { UserAuth } from '~/services';
-import { isNil } from '~/utils';
-
+import { isNil } from '../../../utils';
+import { UserAuth } from '../../gql';
 import { ApiParams } from '../types';
 import { setAuthorizationHeader } from './setAuthorizationHeader';
 
@@ -31,11 +30,11 @@ export function hasUnauthorizedError(error: unknown, apiParams: ApiParams): erro
   }
 
   const isRefreshTokenEndpoint =
-    error.config.url === apiParams.refreshTokenUrl && error.config.method === 'POST';
+    error?.config?.url === apiParams.refreshTokenUrl && error?.config?.method === 'POST';
 
   return (
     codes.includes(<number>error.response?.status) &&
-    !isAxiosRequestRetry(error.config) &&
+    !isAxiosRequestRetry(error?.config as any) &&
     !isRefreshTokenEndpoint
   );
 }
@@ -74,7 +73,7 @@ export function retryWithNewTokens(
         // instance.defaults.headers.common.Authorization = `Bearer ${data.access}`;
 
         const token = data.access;
-        config.headers = setAuthorizationHeader(token, config.headers);
+        config.headers = setAuthorizationHeader(token, config.headers as any);
 
         runQueue({ token });
 
@@ -97,7 +96,7 @@ function addToQueue(instance: AxiosInstance, config: AxiosRequestConfig): AxiosP
     failedQueue.push({ resolve, reject });
   })
     .then(token => {
-      config.headers = setAuthorizationHeader(token, config.headers);
+      config.headers = setAuthorizationHeader(token, config.headers as any);
       return instance(config);
     })
     .catch(err => {

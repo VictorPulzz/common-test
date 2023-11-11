@@ -1,10 +1,9 @@
 import { GraphQLError } from 'graphql';
-import { FieldPath } from 'react-hook-form';
+import { FieldPath, FieldValues } from 'react-hook-form';
 import { UseFormSetError } from 'react-hook-form/dist/types/form';
 
-import { GQL_ERROR_CODE } from '~/services/gql/consts';
-import { entries, isPlainObject } from '~/utils/object';
-
+import { entries, isPlainObject } from '../../../utils';
+import { GQL_ERROR_CODE } from '../consts';
 import { getGqlError } from './getGqlError';
 
 interface CreateProcessGqlErrorResponseOptions {
@@ -13,7 +12,7 @@ interface CreateProcessGqlErrorResponseOptions {
   onUnknownError: (message: string) => void;
 }
 
-interface ProcessGqlErrorResponseOptions<TFormValues> {
+interface ProcessGqlErrorResponseOptions<TFormValues extends FieldValues> {
   fields?: Record<string, FieldPath<TFormValues>> | FieldPath<TFormValues>[];
   setFieldError?: (name: FieldPath<TFormValues>, message: string) => void;
   setFormError?: UseFormSetError<TFormValues>;
@@ -25,7 +24,9 @@ export interface UnhandledFieldError {
 }
 
 export function createProcessGqlErrorResponse(config: CreateProcessGqlErrorResponseOptions) {
-  return function processGqlErrorResponse<TFormValues = Record<string, unknown>>(
+  return function processGqlErrorResponse<
+    TFormValues extends FieldValues = Record<string, unknown>,
+  >(
     e: unknown,
     {
       fields = [],

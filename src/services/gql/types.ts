@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCacheConfig } from '@apollo/client';
 
-import { GQL_ERROR_CODE } from '~/services/gql/consts';
-import { Nullable } from '~/types';
+import { Nullable } from '../../types';
+import { GQL_ERROR_CODE } from './consts';
 
 export interface UserAuth {
   refresh: string;

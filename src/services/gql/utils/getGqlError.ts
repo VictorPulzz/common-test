@@ -1,7 +1,7 @@
 import { GraphQLError } from 'graphql/index';
 
-import { GQL_ERROR_CODE } from '~/services/gql/consts';
-import { GqlErrorResponse } from '~/services/gql/types';
+import { GQL_ERROR_CODE } from '../consts';
+import { GqlErrorResponse } from '../types';
 
 export function getGqlError(gqlErrors?: readonly GraphQLError[]): GqlErrorResponse | undefined {
   if (!gqlErrors) {

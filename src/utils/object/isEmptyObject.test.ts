@@ -1,5 +1,4 @@
-import { noop } from '~/utils';
-
+import { noop } from '../noop';
 import { isEmptyObject } from './isEmptyObject';
 
 describe('isEmptyObject', () => {

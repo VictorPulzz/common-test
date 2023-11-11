@@ -1,7 +1,7 @@
 import { GraphQLError } from 'graphql/index';
 
-import { GQL_ERROR_CODE } from '~/services/gql/consts';
-import { getGqlErrorCode } from '~/services/gql/utils';
+import { GQL_ERROR_CODE } from '../consts';
+import { getGqlErrorCode } from './getGqlError';
 
 export function hasGqlBusinessError(gqlErrors?: readonly GraphQLError[]): boolean {
   const code = getGqlErrorCode(gqlErrors);

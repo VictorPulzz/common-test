@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { isFunction } from '~/utils';
+import { isFunction } from '../utils';
 
 export function useCombinedRef<T>(...refs: React.Ref<T>[]): React.RefCallback<T> {
   return React.useCallback(

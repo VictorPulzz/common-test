@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-import { GLOBAL_ERROR_NAME } from '~/services/api/constants';
-import { ResponseErrors } from '~/types';
-import { entries, isPlainObject, keys } from '~/utils/object';
+import { ResponseErrors } from '../../../types';
+import { entries, isPlainObject, keys } from '../../../utils';
+import { GLOBAL_ERROR_NAME } from '../constants';
 
 interface HandleRequestErrorOptions {
   handleRawErrors?: (errors: Record<string, any>) => void;

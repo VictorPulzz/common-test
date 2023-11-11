@@ -3,11 +3,13 @@ import camelcaseKeys from 'camelcase-keys';
 import merge from 'lodash.merge';
 import snakecaseKeys from 'snakecase-keys';
 
-import { makeQueryString } from '~/utils';
-import { makeFormData, mapFormData } from '~/utils/formData';
-import { isPlainObject } from '~/utils/object';
-import { camelToSnakeCase } from '~/utils/string';
-
+import {
+  camelToSnakeCase,
+  isPlainObject,
+  makeFormData,
+  makeQueryString,
+  mapFormData,
+} from '../../utils';
 import { CONTENT_TYPE_HEADER, ContentType } from './constants';
 import { ApiParams } from './types';
 import { hasUnauthorizedError, retryWithNewTokens, setAuthorizationHeader } from './utils';
@@ -61,7 +63,7 @@ export class Api {
           const formData = body instanceof FormData ? body : makeFormData(body);
 
           if (shouldTransformKeys) {
-            return mapFormData(formData, ([key, value]) => [camelToSnakeCase(key), value]);
+            return mapFormData(formData as any, ([key, value]) => [camelToSnakeCase(key), value]);
           }
 
           return formData;
@@ -92,7 +94,7 @@ export class Api {
       (config: AxiosRequestConfig) => {
         const token = params.getToken();
         if (token) {
-          config.headers = setAuthorizationHeader(token, config.headers);
+          config.headers = setAuthorizationHeader(token, config.headers as any);
         }
         return config;
       },

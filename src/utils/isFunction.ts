@@ -1,4 +1,4 @@
-import { AnyFunction } from '~/types';
+import { AnyFunction } from '../types';
 
 /**
  * Test argument for function

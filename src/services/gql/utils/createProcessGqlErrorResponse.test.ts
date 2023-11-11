@@ -1,7 +1,6 @@
 import { GraphQLError } from 'graphql/index';
 
-import { GQL_ERROR_CODE } from '~/services/gql/consts';
-
+import { GQL_ERROR_CODE } from '../consts';
 import {
   createProcessGqlErrorResponse,
   UnhandledFieldError,

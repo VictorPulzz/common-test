@@ -1,9 +1,9 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/query';
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-import { Api, handleRequestError } from '~/services/api';
-import { AnyObject, ResponseErrors } from '~/types';
-import { isPlainObject } from '~/utils/object';
+import { AnyObject, ResponseErrors } from '../../types';
+import { isPlainObject } from '../../utils';
+import { Api, handleRequestError } from '../api';
 
 export interface AxiosBaseQueryParams {
   transformResponse?: (data: AxiosResponse['data']) => Record<string, any>;

@@ -1,4 +1,4 @@
-import { entries } from '~/utils/object';
+import { entries } from './object';
 
 interface MakeQueryStringOptions {
   withPrefix?: boolean;

@@ -1,5 +1,8 @@
 import { ApolloClient, from, InMemoryCache } from '@apollo/client';
-import { createUploadLink } from 'apollo-upload-client';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// eslint-disable-next-line import/extensions
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 
 import { gqlConfig } from './config';
 import { createAuthLink } from './links/createAuthLink';
