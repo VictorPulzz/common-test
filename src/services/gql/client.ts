@@ -2,7 +2,7 @@ import { ApolloClient, from, InMemoryCache } from '@apollo/client';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 // eslint-disable-next-line import/extensions
-import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
+import { createUploadLink } from 'apollo-upload-client';
 
 import { gqlConfig } from './config';
 import { createAuthLink } from './links/createAuthLink';
