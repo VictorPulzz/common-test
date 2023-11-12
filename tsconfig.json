@@ -1,34 +1,46 @@
 {
+  "files": ["src/index.ts"],
+  "include": ["./src/**/*"],
+  "exclude": ["dist", "node_modules"],
   "compilerOptions": {
+    // Language
+    "target": "es2020",
+    "lib": ["es2020", "dom", "dom.iterable"],
+    "jsx": "react-jsx",
+    "useDefineForClassFields": true,
+
+    // Modules
     "rootDir": "./src",
-    "outDir": "./dist",
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "noUnusedLocals": true,
-    "removeComments": true,
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": false,
-    "sourceMap": true,
-    "jsx": "react",
+
+    // Emit
+    "outDir": "./dist",
     "declaration": true,
-    "declarationDir": "dist"
+    "declarationDir": "dist",
+    "noEmit": true,
+    "removeComments": true,
+    "sourceMap": true,
+
+    // Type checking
+    "strict": true,
+    "strictNullChecks": true,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": true,
+
+    // Completeness
+    "skipLibCheck": true,
+
+    // Interop Constraints
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
   },
-  "include": ["src/**/*"],
-  "exclude": [
-    "node_modules",
-  ]
 }

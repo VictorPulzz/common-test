@@ -1,7 +1,3 @@
 {
-  "extends": ["@appello/eslint-config"],
-  "rules": {
-    "import/no-extraneous-dependencies": "off",
-    "@typescript-eslint/no-explicit-any": "off"
-  }
+  "extends": ["@appello/eslint-config"]
 }

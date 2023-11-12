@@ -27,38 +27,24 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.8.3",
-    "@types/lodash.clonedeep": "^4.5.7",
-    "@types/lodash.merge": "^4.6.7",
-    "axios": "~0.27.2",
-    "camelcase-keys": "^8.0.1",
     "date-fns": "~2.29.1",
-    "dot-path-value": "^0.0.10",
-    "lodash.clonedeep": "^4.5.0",
-    "lodash.merge": "^4.6.2",
-    "snake-case": "^3.0.4",
-    "snakecase-keys": "^5.4.2"
+    "dot-path-value": "^0.0.10"
   },
   "peerDependencies": {
     "react": "^17 || ^18"
   },
   "devDependencies": {
-    "@apollo/client": "^3.6.9",
     "@appello/eslint-config": "^0.1.16",
-    "@babel/preset-env": "^7.23.3",
-    "@babel/preset-react": "^7.23.3",
-    "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.5",
     "@testing-library/react": "^13.3.0",
-    "@types/apollo-upload-client": "^17.0.1",
     "@types/jest": "^28.1.7",
     "@types/react": "18.0.15",
     "@typescript-eslint/eslint-plugin": "5.32.0",
     "@typescript-eslint/parser": "5.32.0",
-    "apollo-upload-client": "^17.0.0",
     "eslint": "8.21.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-airbnb-typescript": "17.0.0",
@@ -81,16 +67,11 @@
     "react-hook-form": "^7.36.0",
     "rollup": "^4.3.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-typescript2": "^0.36.0",
-    "scss": "^0.2.4",
     "ts-jest": "^28.0.8",
-    "tsc-alias": "^1.8.8",
-    "tscpaths": "0.0.9",
     "typescript": "4.7.4"
   },
   "files": [
-    "dist",
-    "tsconfig.json"
+    "dist"
   ],
   "repository": {
     "type": "git",
