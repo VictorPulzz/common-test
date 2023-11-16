@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCacheConfig } from '@apollo/client';
+import { ApolloClient, ApolloLink, InMemoryCacheConfig } from '@apollo/client';
 
 import { GQL_ERROR_CODE } from '~/services/gql/consts';
 import { UserAuth } from '~/types';
@@ -26,4 +26,5 @@ export interface GqlConfig {
   ) => Promise<Nullable<UserAuth>>;
   refreshTokenOperationName?: string;
   cache?: InMemoryCacheConfig;
+  additionalLinks?: ApolloLink;
 }

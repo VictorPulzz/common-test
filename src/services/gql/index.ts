@@ -10,11 +10,13 @@ export function createGqlClient(config: GqlConfig): ApolloClient<unknown> {
   Object.assign(gqlConfig, config);
 
   gqlConfig.client = new ApolloClient({
-    link: from([
-      createErrorLink(gqlConfig),
-      createAuthLink(gqlConfig),
-      createUploadLink({ uri: gqlConfig.serverUrl }),
-    ]),
+    link: from(
+      [
+        createErrorLink(gqlConfig),
+        createAuthLink(gqlConfig),
+        createUploadLink({ uri: gqlConfig.serverUrl }),
+      ].concat(config.additionalLinks || []),
+    ),
     cache: new InMemoryCache(gqlConfig.cache),
   });
 
